@@ -1,0 +1,6 @@
+https://visualstudio.microsoft.com/visual-cpp-build-tools/
+	install C++ build tools
+pip install pyfhel
+	cython
+	setuptools
+	numpy
