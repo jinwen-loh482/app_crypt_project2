@@ -8,11 +8,11 @@ import copy
 
 # compute bitwise XOR without encryption
 def bxor(a, b):
-    return a + b - 2*a*b
+    return a + b - int((a + b)/2)*2
 
 # compute bitwise OR without encryption
 def bor(a, b):
-    return a + b - a*b
+    return a + b - int((a + b)/2)
 
 # compute xor
 def xor(temp, data):
