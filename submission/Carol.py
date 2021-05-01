@@ -9,8 +9,7 @@ import phe.encoding
 from phe import paillier
 import pickle
 import random
-
-random.seed(2222)
+import sys
 
 def randomize():
     pos_or_neg = 1 if random.random() < 0.5 else -1
@@ -34,7 +33,7 @@ def compute_matching(header, rows, category, data):
         catcell = rows[i][catIndex]
 
         # subtract to extract correct answer
-        temp = catcell - int(data)
+        temp = catcell - float(data)
         
         # multiply by random number to hide values (also ruins the 'valid' cell)
         rows[i] = [temp*randomize() + cell for cell in rows[i]]
@@ -49,20 +48,24 @@ def Carol (category, data):
 # This is mimic Alice asking Carol for information
 def main():
     parser = argparse.ArgumentParser(description='Given a category and data, query with carol and return results as encrypted_carol.pickle')
-    parser.add_argument('--category', help='The category to match')
+    parser.add_argument('--category', help='The category to match. "valid" cannot be searched')
     parser.add_argument('--data', help='The data to match')
     cmdline = parser.parse_args()
-    category = ""
+    category = ''
     if cmdline.category:
     	category = cmdline.category
     else:
-    	category = input("Enter category: ")
+    	category = input('Enter category: ')
+
+    if cmdline.category in ['valid']:
+        parser.print_help()
+        sys.exit(1)
     
-    data = ""
+    data = ''
     if cmdline.data:
     	data = cmdline.data
     else:
-    	data = input("Enter data: ")
+    	data = input('Enter data: ')
 
     rows, header = Carol(category, data)
     
@@ -70,5 +73,5 @@ def main():
     mydf = pd.DataFrame(rows, columns=header)
     pd.to_pickle(mydf, 'encrypted_carol.pickle')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
