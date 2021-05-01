@@ -19,6 +19,7 @@ df = pd.read_csv("test.csv")
 # df = pd.read_csv("test.csv")
 
 df = df.dropna()
+
 df_np = df.to_numpy()
 # df_np = df_np.astype(int)
 X = df_np[:, :13]
@@ -34,13 +35,12 @@ public_key, private_key = gen_keys()
 # p = private_key.decrypt(upic)
 
 cipher_vect = []
-# for each 1D numpy array, encrypt using batch Pyfhel
 for row in df_np:
 	cipher_row = [public_key.encrypt(x) for x in row]
 	cipher_vect.append(cipher_row)
 
-mydf = pd.DataFrame(cipher_vect)
-pd.to_pickle(mydf, "./encrypted.pkl")
+mydf = pd.DataFrame(cipher_vect, columns=df.columns)
+pd.to_pickle(mydf, "./encrypted.pickle")
 
 # pickle_vect = []
 # for row in cipher_vect:
