@@ -25,6 +25,10 @@ def get_rows(pklfile):
     return header, rows
 
 def compute_matching(header, rows, category, data):
+    if category not in header:
+        sys.stderr.write('Error: "{}" is not a valid category\n'.format(category))
+        sys.exit(1)
+
     # get index to apply to
     catIndex = header.get_loc(category)
 
@@ -44,34 +48,60 @@ def compute_matching(header, rows, category, data):
 def Carol (category, data):
     header, rows = get_rows('encrypted.pickle')
     return compute_matching(header, rows, category, data)
-            
-# This is mimic Alice asking Carol for information
-def main():
-    parser = argparse.ArgumentParser(description='Given a category and data, query with carol and return results as encrypted_carol.pickle')
-    parser.add_argument('--category', help='The category to match. "valid" cannot be searched')
-    parser.add_argument('--data', help='The data to match')
-    cmdline = parser.parse_args()
-    category = ''
-    if cmdline.category:
-    	category = cmdline.category
-    else:
-    	category = input('Enter category: ')
 
-    if cmdline.category in ['valid']:
+def parse(category, data):
+    # create parser for data and category
+    parser = argparse.ArgumentParser(description='Given a category and data, query with carol and return results as encrypted_carol.pickle')
+    # parse if no input
+    if not category:
+        parser.add_argument('--category', help='The category to match. "valid" cannot be searched')
+    if not data:
+        parser.add_argument('--data', help='The data to match')
+    cmdline = parser.parse_args()
+    
+    if not category:
+        # check for category
+        if cmdline.category:
+            category = cmdline.category
+        else:
+            category = input('Enter category: ')
+
+    if not data:
+        # check for data
+        data = ''
+        if cmdline.data:
+            data = cmdline.data
+        else:
+            data = input('Enter data: ')
+
+    # prevent 'valid' from being searched as a category
+    if category in ['valid']:
+        sys.stderr.write('Error: "valid" cannot be searched\n')
         parser.print_help()
         sys.exit(1)
-    
-    data = ''
-    if cmdline.data:
-    	data = cmdline.data
-    else:
-    	data = input('Enter data: ')
 
+    # prevent invalid data from being searched
+    try:
+        float(data)
+    except ValueError:
+        sys.stderr.write('Error: "{}" is not a float or int\n'.format(data))
+        parser.print_help()
+        sys.exit(1)
+
+    return category, data
+
+# This is mimic Alice asking Carol for information
+def main(category=None, data=None):
+    pklfile = 'encrypted_carol.pickle'
+
+    category, data = parse(category, data)
+    
+    # search category and data on alice's encrypted pickle file
     rows, header = Carol(category, data)
     
-    # write to file
+    # write to carol's enrypted pickle file
     mydf = pd.DataFrame(rows, columns=header)
-    pd.to_pickle(mydf, 'encrypted_carol.pickle')
+    pd.to_pickle(mydf, pklfile)
 
 if __name__ == '__main__':
     main()
