@@ -12,19 +12,16 @@ def get_keys():
 
 df = pd.read_pickle("encrypted_carol.pickle")
 df = df.dropna()
+validIndex = df.columns.get_loc('valid')
 df_np = df.to_numpy()
 
 public_key, private_key = get_keys()
 
-# unpickle_vect = []
-# for row in df_np:
-# 	unpickle_row = [df_np.loads(x) for x in row]
-# 	unpickle_vect.append(unpickle_row)
-# 	# print(unpickle_row)
-
-decrypt_vect = []
+decrypt_vect = list()
 for row in df_np:
-	# print(row)
-	decrypt_row = [private_key.decrypt(x) for x in row]
-	decrypt_vect.append(decrypt_row)
-	print(decrypt_row)
+	decrypt_row = [private_key.decrypt(cell) for cell in row]
+	if int(decrypt_row[validIndex]) == 1:
+		decrypt_vect.append(decrypt_row)
+
+for row in decrypt_vect:
+	print(row)
