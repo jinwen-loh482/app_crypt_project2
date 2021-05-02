@@ -1,11 +1,9 @@
 ''' Carol will compute matching on encrypted data on query
 from Alice and compare'''
 import argparse
-import copy
 import csv
 import math
 import pandas as pd
-import phe.encoding
 from phe import paillier
 import pickle
 import random
