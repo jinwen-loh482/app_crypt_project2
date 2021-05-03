@@ -27,7 +27,7 @@ def Darryl (category, data):
     rows = rows[1:]
     for row in rows:
         # append if string matches
-        if row[catIndex] == str(data):
+        if float(row[catIndex]) == float(data):
             answer.append(row)
     return answer
 
