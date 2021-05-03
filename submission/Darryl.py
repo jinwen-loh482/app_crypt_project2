@@ -22,7 +22,7 @@ def Darryl (category, data):
         sys.exit(1)
 
     # get index
-    catIndex = rows[0].index(category)
+    catIndex = header.index(category)
 
     rows = rows[1:]
     for row in rows:
