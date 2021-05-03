@@ -16,7 +16,7 @@ def gen_keys():
 
 # Read from csv
 # store as numpy array, df_np
-df = pd.read_csv("Heart.csv")
+df = pd.read_csv("zavoral_zhou_loh_barron-Heart.csv")
 df = df.dropna()
 df_np = df.to_numpy()
 

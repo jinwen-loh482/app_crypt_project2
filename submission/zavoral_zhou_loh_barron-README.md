@@ -13,22 +13,22 @@ dependencies:
 
 This project simulates homomorphic encryption with a cloud server. In this scenario, 'Alice' is the client and 'Carol' is the cloud server. Additionally, for performance purposes we created 'Darryl' the unencrypted version of the cloud server.
 
-There are four programs: Alice_encrypt.py, Carol.py, Alice_decrypt.py, and Darryl.py.
+There are four programs: zavoral_zhou_loh_barron-Alice_encrypt.py, zavoral_zhou_loh_barron-Carol.py, zavoral_zhou_loh_barron-Alice_decrypt.py, and zavoral_zhou_loh_barron-Darryl.py.
 
 Run encryption as follows from the submission directory:
 ```
-python Alice_encrypt.py
-python Carol.py
-# enter a category
-# enter the data to be searched
-python Alice_decrypt.py
+python zavoral_zhou_loh_barron-Alice_encrypt.py
+python zavoral_zhou_loh_barron-Carol.py
+# enter a category i.e. age
+# enter the data to be searched i.e. 63.0
+python zavoral_zhou_loh_barron-Alice_decrypt.py
 ```
 
 Run without encryption as follows from the submission directory:
 ```
-python Darryl.py
-# enter a category
-# enter the data to be searched
+python zavoral_zhou_loh_barron-Darryl.py
+# enter a category i.e. age
+# enter the data to be searched i.e. 63.0
 ```
 
 Successes:
